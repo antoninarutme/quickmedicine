@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dbManager.DataStoreDatabaseManager;
 import dbManager.Order;
 
 public class OpenSession extends HttpServlet {
@@ -24,8 +25,8 @@ public class OpenSession extends HttpServlet {
     	PrintWriter out = response.getWriter();
         Object idO = request.getParameter("theIdField");
         Object hmoO = request.getParameter("theHmoField");
-        System.out.println("the idO is " + idO.toString());
-        System.out.println("the hmoO is " + hmoO.toString());
+        //System.out.println("the idO is " + idO.toString());
+        //System.out.println("the hmoO is " + hmoO.toString());
         if (idO != null && hmoO != null) {
             int id;
             try {
@@ -44,10 +45,18 @@ public class OpenSession extends HttpServlet {
             	HttpSession session = request.getSession();
             	session.setAttribute("userName", idO.toString());
             	Order o = new Order(id, hmoO.toString());
-            	response.sendRedirect("myorder.jsp");
+            	System.out.println ("new order was created : id = " + o.clientID + ", hmo = " + o.HMO);
+            	DataStoreDatabaseManager.getInstance().insertNewOrder(o);
+            	response.sendRedirect("medpage.jsp");
             	return;
             }
-         }
+        }
+        else if (hmoO == null){
+            out.println("<script type=\"text/javascript\">");  
+            out.println("alert('Please choose an HMO');"); 
+            out.println("history.back();");
+            out.println("</script>");
+        }
     }
 
 }

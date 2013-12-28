@@ -174,7 +174,7 @@ direction:rtl;
         height: 220px;
         margin: 0 auto;
         padding: 0 5px 5px 5px;
-        background: #1777B1 url(https://mail-attachment.googleusercontent.com/attachment/u/1/?ui=2&ik=ef47f35f33&view=att&th=141e45b211cb65a5&attid=0.1&disp=inline&realattid=f_hn4a4yfa0&safe=1&zw&saduie=AG9B_P-x-qmsXXZ_L3viVjEd5vHj&sadet=1383908386223&sads=yS4ihpFVI9HFqMC3I8M8vExVUsQ) no-repeat 5px 0px;
+        background: #1777B1 url(https://dl.dropboxusercontent.com/u/22885397/github/logo.jpg) no-repeat 5px 0px;
 }
 
 /* Logo */
@@ -374,3 +374,59 @@ label {
 #emotion label img {
     padding: 3px;
 }
+
+
+
+/* HMO */
+
+#HMO {
+direction:rtl;
+        width: 760px;
+        height: 150px;
+        margin: 0 auto;
+        padding-right: 25px 25px 25px 25px;
+        background: #1777B1;
+}
+
+#HMO ul {
+        margin: 0;
+        padding-right: 20px;
+        list-style: none;
+        line-height: normal;
+}
+
+#HMO li {
+        display: inline;
+        margin: 0;
+        padding-right: 5px;
+        float: right;
+}
+
+#HMO a {
+        display: block;
+        float: left;
+        width: 125px;
+        height: 53px;
+        padding: 27px 0 0 0;
+        background: #A8D7F8 url(images/img02.gif) no-repeat;
+        border-left: 2px solid #1777B1;
+        text-decoration: none;
+        text-align: center;
+        font-size: 136%;
+        color: #1777B1;
+}
+
+#HMO a:hover {
+        background: #FF9009 url(images/img04.gif) no-repeat;
+        color: #005826;
+}
+
+#HMO .active a {
+        background: #A8DC35 url(images/img03.gif) no-repeat;
+        border: none;
+        color: #E80732;
+}
+
+
+
+

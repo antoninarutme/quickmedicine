@@ -9,39 +9,26 @@ import javax.jdo.annotations.PrimaryKey;
 public class Drug {
 	
 	@PrimaryKey
-	private String name;
+	public String name;
 	@Persistent
-	private int MeuhedetPrice;
+	public double MeuhedetPrice;
 	@Persistent
-	private int LeumitPrice;
+	public double LeumitPrice;
 	@Persistent
-	private int ClalitPrice;
+	public double ClalitPrice;
 	@Persistent
-	private int MaccabiPrice;
+	public double MaccabiPrice;
 	@Persistent
-	private int HMOlessPrice;
+	public double HMOlessPrice;
 	@Persistent
-	private int quantity;
+	public int quantity;
 	@Persistent
 	public int virtualQuantity;	
 	//virtual quantity = actual quantity - quantity ordered by clients but not sold yet
 	
-	/*public Drug() {}
-	
-	public Drug(String n, int p1, int p2, int p3, int p4, int p5, int q) {
-		name = n;
-		MeuhedetPrice = p1;
-		LeumitPrice = p2;
-		ClalitPrice = p3;
-		MaccabiPrice = p4;
-		HMOlessPrice = p5;
-		quantity = q;
-		virtualQuantity = q;
-	}*/
-	
 	public String getName() {return name;}
 	
-	public int getPrice (String s) {
+	public double getPrice (String s) {
 		if (s.equals("Meuhedet"))
 			return MeuhedetPrice;
 		else if (s.equals("Leumit"))

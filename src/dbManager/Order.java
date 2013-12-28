@@ -5,63 +5,44 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.Element;
 
 import java.util.LinkedList;
-
-
 import java.util.Calendar;
+import java.util.TimeZone;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Order {
 	@PrimaryKey
-	private String orderID;
+	public String orderID;
 	@Persistent
-	private int clientID;
+	public int clientID;
 	@Persistent
-	private int month;
+	public int month;
 	@Persistent
-	private int date;
+	public int date;
 	@Persistent
-	private int from_hour;
+	public int from_hour;
 	@Persistent
-	private int to_hour;
+	public int to_hour;
+	@Persistent(mappedBy = "order")
+	@Element(dependent = "true")
+	public LinkedList<OrderedDrug> list;
+	public String HMO;
 	@Persistent
-	private LinkedList<OrderedDrug> list;
-	private String HMO;
-	@Persistent
-	private int price;
-	
-	public class OrderedDrug {
-		private String name;
-		private int price;
-		private int quantity;
-											
-		OrderedDrug (String n, int p, int q) {
-			name = n;
-			price = p;
-			quantity = q;
-		}
-											
-		public String getName() {return name;}
-		public int getPrice() {return price;}
-		public int getQuantity() {return quantity;}
-		public void setQuantity(int q) {quantity = q;}
-		public void addQuantity(int q) {quantity += q;}
-		public boolean equals(OrderedDrug drug) {return (name.equals(drug.name));}
-											
-	}
-
+	public double price;
 
 	public Order (int id, String hmo) {
 		clientID = id;
-		date = Calendar.DATE;
-		month = Calendar.MONTH + 1;
-		int currentDay = Calendar.DAY_OF_WEEK;
-		int year = Calendar.YEAR;
+		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00"));
+		date = now.get(Calendar.DATE);
+		month = now.get(Calendar.MONTH) + 1;
+		int currentDay = now.get(Calendar.DAY_OF_WEEK);
+		int year = now.get(Calendar.YEAR);
 		//if it's too late (9 pm) or it's friday and it's too late (1 pm) or it's shabbat:
 		if (currentDay == 7
-				|| (currentDay == 6 && Calendar.HOUR_OF_DAY >= 13)
-				|| Calendar.HOUR_OF_DAY >= 21) {
+				|| (currentDay == 6 && now.get(Calendar.HOUR_OF_DAY) >= 13)
+				|| now.get(Calendar.HOUR_OF_DAY) >= 21) {
 			date++;
 			//february:
 			if (month == 2) {
@@ -87,46 +68,41 @@ public class Order {
 			}
 		}
 		HMO = hmo;
-		orderID = "" + id + Calendar.DAY_OF_MONTH + Calendar.MONTH + Calendar.YEAR;
+		orderID = "" + id + date + month + year;
 		price = 0;
 		list = new LinkedList<OrderedDrug>();
 	}
 
-	public int getPrice() {return price;}
+	public double getPrice() {return price;}
+	public LinkedList<OrderedDrug> getDrugs() {return list;}
 	
 	public void setHours (int fh, int th) {
 		from_hour = fh;
 		to_hour = th;
 	}
-
-	public void add(String s, int quantity) {
-		int p = DataStoreDatabaseManager.getInstance().getDrugByName(s).getPrice(HMO);
-		OrderedDrug d = new OrderedDrug (s, p, quantity);
-		int i = list.indexOf(d);
-		if (i == -1)
-			list.addLast(d);
-		else
-			list.get(i).addQuantity(d.getQuantity());
-		price += d.getPrice()*d.getQuantity();
-	}
 	
-	/*public void add(OrderedDrug d) {
-		int i = list.indexOf(d);
-		if (i == -1)
-			list.addLast(d);
-		else
-			list.get(i).addQuantity(d.getQuantity());
-		price += d.getPrice()*d.getQuantity();
-	}*/
+	public void add(OrderedDrug d) {
+		for (int i=0; i<list.size(); i++) {
+			if (list.get(i).equals(d)) {
+				//double unitPrice = list.get(i).price / list.get(i).quantity;
+				list.get(i).addQuantity(d.quantity);
+				System.out.println ("old drug in order, quantity: "+d.quantity);
+				price += d.price;
+				return;
+			}
+		}
+		list.addLast(d);
+		price += d.price;
+		System.out.println ("new drug in order, quantity: "+d.quantity);
+	}
 
-
-	public void remove(String s) {
+	/*public void remove(String s) {
 		OrderedDrug d = new OrderedDrug(s,0,0);
 		int i = list.indexOf(d);
 		if (i != -1) {
 			price -= list.get(i).getPrice()*list.get(i).getQuantity();
 			list.remove(i);
 		}		
-	}	
+	}*/
 	
 }

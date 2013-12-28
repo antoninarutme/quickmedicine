@@ -34,11 +34,13 @@ public final class DataStoreDatabaseManager
     //return drug if exists
     public Drug getDrugByName (String nameParam)
     {
+    	PersistenceManager pm = PMF.get().getPersistenceManager();
     	try {
     		javax.jdo.Query query = pm.newQuery(Drug.class);
-    		query.setFilter("name.compareTo(nameParam) == 0");
-    		Drug d = (Drug) query.execute();
-    		return d;
+        	query.setFilter("name == nameParam");
+        	query.declareParameters("String nameParam");
+        	List<Drug> l = (List<Drug>) query.execute(nameParam);
+        	return l.get(0);
     	}
     	catch (Exception e) {
     		return null;
@@ -48,29 +50,21 @@ public final class DataStoreDatabaseManager
     //return all orders for the same day between fromHour and toHour
     public List<Order> getOrderByHours (int fromHour, int toHour)
     {
-    	try {
-    		javax.jdo.Query query = pm.newQuery(Order.class);
-    		query.setFilter("month == Calendar.MONTH && day == Calendar.DAY_OF_MONTH && from >= fromHour && to <= toHour");
-    		List<Order> list = (List<Order>) query.execute();
-    		return list;
-    	}
-    	catch (Exception e) {
-    		return null;
-    	}
+    	PersistenceManager pm = PMF.get().getPersistenceManager();
+    	javax.jdo.Query query = pm.newQuery(Order.class);
+    	query.setFilter("month == Calendar.MONTH && day == Calendar.DAY_OF_MONTH && from >= fromHour && to <= toHour");
+    	List<Order> list = (List<Order>) query.execute();
+    	return list;
     }
     
     //return the client's order
     public Order getOrderByClientID (int id)
     {
-    	try {
-    		javax.jdo.Query query = pm.newQuery(Order.class);
-    		query.setFilter("clientID == id");
-    		Order o = (Order) query.execute();
-    		return o;
-    	}
-    	catch (Exception e) {
-    		return null;
-    	}
+    	PersistenceManager pm = PMF.get().getPersistenceManager();
+    	javax.jdo.Query query = pm.newQuery(Order.class);
+    	query.setFilter("clientID == id");
+    	Order o = (Order) query.execute();
+    	return o;
     }
 
 }

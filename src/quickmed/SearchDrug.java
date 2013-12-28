@@ -7,12 +7,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import javax.servlet.http.HttpSession;
 
 import dbManager.DataStoreDatabaseManager;
 import dbManager.Drug;
 import dbManager.Order;
+import dbManager.OrderedDrug;
 
 public class SearchDrug extends HttpServlet {
         private static final long serialVersionUID = 1L;
@@ -27,7 +27,7 @@ public class SearchDrug extends HttpServlet {
     	Object nameO = request.getParameter("theNameField");
         Object quantityO = request.getParameter("theQuantityField");
         if (nameO != null && quantityO != null) {
-            Drug d = DataStoreDatabaseManager.getInstance().getDrugByName(nameO.toString());
+        	Drug d = DataStoreDatabaseManager.getInstance().getDrugByName(nameO.toString());
             int quantity;
             try {
             	quantity = Integer.parseInt(quantityO.toString());
@@ -47,36 +47,42 @@ public class SearchDrug extends HttpServlet {
             	out.println("history.back();");
             	out.println("</script>");
             }
-            else if (d.getQuantity() == 0) {
+            else if (!(d.isInInventory())) {
             	out.println("<script type=\"text/javascript\">");  
             	out.println("alert('Sorry, drug not in stock.');");  
             	out.println("history.back();");
             	out.println("</script>"); 
             }
-            else if (d.getQuantity() < quantity) {
+            else if (!(d.enoughInInventory(quantity))) {
             	out.println("<script type=\"text/javascript\">");  
             	out.println("alert('Sorry, not enough drug in stock.');"); 
             	out.println("history.back();");
             	out.println("</script>"); 
             }
             else {
-            	HttpSession session =  request.getSession();
+				HttpSession session = request.getSession();
             	if (session.getAttribute("userName") == null) {
                 	out.println("<script type=\"text/javascript\">"); 
             		out.println("alert('Drug in stock, please open a session if you want to order.');");
+            		out.println("window.location.href = 'qm.jsp';");
                 	out.println("</script>");
-            		response.sendRedirect("qm.jsp");
-            		return;
+                	System.out.println ("Drug in stock, please open a session if you want to order.");
             	}
             	else {
                 	out.println("<script type=\"text/javascript\">"); 
                 	out.println("alert('Drug in stock, added to basket.');");
+                	out.println("window.location.href = 'qm.jsp';");
                 	out.println("</script>");
                 	int id = Integer.parseInt(session.getAttribute("userName").toString());
+                	System.out.println ("search "+id);
                 	Order o = DataStoreDatabaseManager.getInstance().getOrderByClientID(id);
-                	o.add(nameO.toString(), quantity);
-                	response.sendRedirect("qm.jsp");
-                	return;
+                	if (o == null) {
+                		System.out.println ("order not found");
+                		return;
+                	}
+                	OrderedDrug od = new OrderedDrug(d.getName(), d.getPrice(o.HMO) * quantity, quantity);
+                	o.add(od);
+                	d.order(quantity);
             	}
             }
         }	

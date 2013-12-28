@@ -34,4 +34,13 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/OpenSession</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>InventoryServlet</servlet-name>
+		<servlet-class>quickmed.InventoryServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InventoryServlet</servlet-name>
+		<url-pattern>/InventoryServlet</url-pattern>
+	</servlet-mapping>
+	
 </web-app>
