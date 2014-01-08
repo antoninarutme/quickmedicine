@@ -21,7 +21,6 @@
                 	<h1 class="title">פשוט הזמן שלם וקח!!!</h1>
                     <br>
                     <br>
-                    <br>
      				<%@ include file="sessionform.jsp" %>
                 </div>
         </div>

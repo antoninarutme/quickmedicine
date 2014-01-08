@@ -79,7 +79,7 @@ public class InventoryServlet extends HttpServlet {
 	                        	d.virtualQuantity += temp.virtualQuantity;
 	                        	DataStoreDatabaseManager.getInstance().insertNewDrug(d);
 		                        out.println("<script type=\"text/javascript\">");  
-		                    	out.println("alert('drug updated sucsefully');");  
+		                    	out.println("alert('drug updated successfully');");  
 		                    	out.println("history.back();");
 		                    	out.println("</script>");
 	                        }
@@ -87,7 +87,7 @@ public class InventoryServlet extends HttpServlet {
 	                        {
 	                        	DataStoreDatabaseManager.getInstance().insertNewDrug(d);
 		                        out.println("<script type=\"text/javascript\">");  
-		                    	out.println("alert('drug added sucsefully');");  
+		                    	out.println("alert('drug added successfully');");  
 		                    	out.println("history.back();");
 		                    	out.println("</script>");
 	                        }

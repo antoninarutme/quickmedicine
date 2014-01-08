@@ -71,7 +71,6 @@ public class SearchDrug extends HttpServlet {
             	else {
                 	out.println("<script type=\"text/javascript\">"); 
                 	out.println("alert('Drug in stock, added to basket.');");
-                	out.println("window.location.href = 'qm.jsp';");
                 	out.println("</script>");
                 	int id = Integer.parseInt(session.getAttribute("userName").toString());
                 	System.out.println ("search "+id);
@@ -83,6 +82,9 @@ public class SearchDrug extends HttpServlet {
                 	OrderedDrug od = new OrderedDrug(d.getName(), d.getPrice(o.HMO) * quantity, quantity);
                 	o.add(od);
                 	d.order(quantity);
+                 	out.println("<script type=\"text/javascript\">"); 
+                	out.println("window.location.href = 'medpage.jsp';");
+                	out.println("</script>");
             	}
             }
         }	

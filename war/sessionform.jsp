@@ -25,7 +25,7 @@
         <br>
          </ul>
      </div>
-     <input type="submit" value="Open session">
+     <input type="submit" value="המשך">
 </form>
 </center>
 

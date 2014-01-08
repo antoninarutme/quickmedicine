@@ -11,7 +11,8 @@
 
 <html>
 <body>
-<center>
+	<center>
+	<%@ include file="myorder.jsp" %>
 	<form name="frm" action="SearchDrug" method="get">
 	<h4><label for="nameField">שם התרופה:</label></h4>
     <input type="text" name="theNameField" id="nameField">
@@ -19,10 +20,8 @@
     <h4><label for="quantityField">כמות בכדורים:</label></h4>
     <input type="text" name="theQuantityField" id="quantityField">
     <br />
-    <input type="submit" value="בדיקה">
+    <input type="submit" value="הוסף">
 </form>
-</center>
-
-
+	</center>
 </body>
 </html>

@@ -11,9 +11,8 @@
         <ul>
 
                 <li><a href="#">צור קשר</a></li>
-                <li><a href="#">קישור</a></li>
-                <li><a href="#">קישור</a></li>
-                <li><a href="myorder.jsp">הסל שלי</a></li>
+                <li><a href="#">אודותינו</a></li>
+                <li><a href="orderviewpage.jsp">הסל שלי</a></li>
                 <li><a href="medpage.jsp">הקלדת תרופות</a></li>
                 <li class="active"><a href="qm.jsp">דף הבית</a></li>
         </ul>
