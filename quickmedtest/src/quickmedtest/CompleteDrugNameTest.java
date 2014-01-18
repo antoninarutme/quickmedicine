@@ -42,4 +42,10 @@ public class CompleteDrugNameTest {
 		assertEquals(list,result);
 	}
 	
+	@Test
+	public void testSpaces() throws Exception {
+		LinkedList<String> result = new CompleteDrugName().complete("https://dl.dropboxusercontent.com/u/22885397/github/drug%20list.txt", "  ");
+		LinkedList<String> list = new LinkedList<String>();
+		assertEquals(list,result);
+	}
 }

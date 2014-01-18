@@ -82,5 +82,12 @@ public final class DataStoreDatabaseManager
         else
         	return null;
     }
-
+    
+    public List<Order> getAllOrders ()
+    {
+    	PersistenceManager pm = PMF.get().getPersistenceManager();
+    	javax.jdo.Query query = pm.newQuery(Order.class);
+    	List<Order> list = (List<Order>) query.execute ();
+    	return list;
+    }
 }

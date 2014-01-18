@@ -30,14 +30,20 @@ public class SearchDrug extends HttpServlet {
     	response.setContentType("text/html");
     	PrintWriter out = response.getWriter();
     	Object nameO = request.getParameter("theNameField");
-    	if (request.getParameter("complete") != null) {
+    	/*if (request.getParameter("complete") != null) {
     		if (nameO != null) {
     			LinkedList<String> list = complete ("https://dl.dropboxusercontent.com/u/22885397/github/drug%20list.txt", nameO.toString());
     			if (!list.isEmpty())
     				out.println("" + list.toString());
+    			else {
+    	           	out.println("<script type=\"text/javascript\">");  
+                	out.println("alert('No drug was found for your request');");
+                	out.println("window.location.href = 'medpage.jsp';");
+                	out.println("</script>");
+    			}
     		}
-    	}
-    	else if (request.getParameter("search") != null) {
+    	}*/
+    	//else if (request.getParameter("search") != null) {
         Object quantityO = request.getParameter("theQuantityField");
         if (nameO != null && quantityO != null) {
         	Drug d = DataStoreDatabaseManager.getInstance().getDrugByName(nameO.toString());
@@ -51,7 +57,7 @@ public class SearchDrug extends HttpServlet {
             if (d == null) {
             	out.println("<script type=\"text/javascript\">");  
             	out.println("alert('Drug not found!');"); 
-            	out.println("history.back();");
+            	out.println("window.location.href = 'medpage.jsp';");
             	out.println("</script>");
             }
             else if (quantity <= 0) {
@@ -101,12 +107,12 @@ public class SearchDrug extends HttpServlet {
             	}
             }
         }
-    	}
+    	//}
     }
         
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
     
-    private LinkedList<String> complete (String f, String s) {
+   /* private LinkedList<String> complete (String f, String s) {
 		LinkedList<String> list = new LinkedList<String>();
 		try {
 			URL url = new URL(f);
@@ -131,9 +137,11 @@ public class SearchDrug extends HttpServlet {
 		}
 		catch (MalformedURLException e) {}
 		catch (IOException e) {}
-		System.out.println (list);
+		//System.out.println (list);
+		for (int i=0; i<list.size(); i++)
+			System.out.println (list.get(i));
 		return list;
-	}
+	}*/
 
 }
 
